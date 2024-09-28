@@ -1,0 +1,17 @@
+node_modules
+package-lock.json
+*.log
+*.gz
+
+# Coveralls
+coverage
+
+# Environmental Vars
+.env
+
+# Development testing
+testing/
+
+# Benchmarking
+benchmarks/graphs
+build/
