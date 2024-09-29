@@ -4,7 +4,7 @@ const findResources = require("../utils/findResources");
 
 const postQuery = async (req, res) => {
     try {
-        const { query } = req.body;
+        const { query, zipcode } = req.body;
         if (!query) {
             res.send("Form cannot be empty!")
         } else if (query.length > 555) {
@@ -18,7 +18,7 @@ const postQuery = async (req, res) => {
               res.send("Question invalid. Are you asking for assistance with financial resources?");
             } else if (promptValidity == 1) {
               response = await generateResponse(query);
-              resources = await findResources(28.538336, -81.379234, query);
+              resources = await findResources(zipcode, query);
               resources = JSON.stringify(resources)
 
               res.send({"response": response, "resources": resources});
