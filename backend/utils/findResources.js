@@ -1,6 +1,6 @@
 Groq = require("groq-sdk");
 require("dotenv").config();
-const formatJSON = require("../utils/formatJSON");
+const formatJSON = require("./formatJSON");
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
