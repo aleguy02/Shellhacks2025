@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "NunitoLight";
+  src: local("Nunito-Light"),
+    url("./assets/fonts/NunitoSans_7pt-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "NunitoMedium";
+  src: local("Nunito-Medium"),
+    url("./assets/fonts/NunitoSans_7pt-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "NunitoBlack";
+  src: local("Nunito-Black"),
+    url("./assets/fonts/NunitoSans_10pt_Condensed-Black.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "PoppinsMedium";
+  src: local("Poppins-Medium"),
+    url("./assets/fonts/Poppins-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "PoppinsBold";
+  src: local("Poppins-Bold"),
+    url("./assets/fonts/Poppins-Bold.ttf") format("truetype");
+}

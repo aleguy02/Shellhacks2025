@@ -4,11 +4,11 @@ require("dotenv").config();
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 const generateResponse = async (query) => {
-    const chatCompletion = await groq.chat.completions.create({
-        messages: [
-          {
-            role: "user",
-            content: `Given the provided query from a user, please answer the query in a way such that your response meets the following criteria. Each criterion will be enclosed in square brackets. Criteria: [### 1. **Relevance to Financial Assistance Program**
+  const chatCompletion = await groq.chat.completions.create({
+    messages: [
+      {
+        role: "user",
+        content: `Given the provided query from a user, please answer the query in a way such that your response meets the following criteria. Each criterion will be enclosed in square brackets. Criteria: [### 1. **Relevance to Financial Assistance Program**
    - **Does the response directly address a financial assistance program providing aid or subsidies?
      - **Valid Response:** Provides information about the relevant program, such as how to apply or where to find resources.
      - **Invalid Response:** Provides unrelated financial advice (e.g., stock market investing).], [### 2. **Location-Specific Information**
@@ -43,14 +43,14 @@ const generateResponse = async (query) => {
      - **Valid Response:** Explains the purpose of the program (e.g., SNAP provides assistance for purchasing groceries) and clarifies any complex terms (e.g., defining EBT as "Electronic Benefit Transfer").
      - **Invalid Response:** Uses jargon or assumes prior knowledge of program functions without providing explanations or clear guidance.].
 
-This is the query: ${query}.`,
-          },
-        ],
-        model: "llama3-8b-8192",
-      });;
+This is the query: ${query}. FORMAT YOUR RESPONSE AS A PARAGRAPH LIMITED TO 2 SENTENCES MAXIMUM.`,
+      },
+    ],
+    model: "llama3-8b-8192",
+  });
 
-      // Print the completion returned by the LLM.
-      return chatCompletion.choices[0]?.message?.content
+  // Print the completion returned by the LLM.
+  return chatCompletion.choices[0]?.message?.content;
 };
 
 module.exports = generateResponse;
