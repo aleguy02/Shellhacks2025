@@ -27,15 +27,7 @@ export default function Search() {
         query: inputValue,
         zipcode: zip,
       });
-      if (
-        result == "Form cannot be empty!" ||
-        result ==
-          "You broke the check and somehow submitted a query larger than 555 characters. Congrats!" ||
-        result ==
-          "Something went wrong. Rephrase you question and try again." ||
-        result ==
-          "Question invalid. Are you asking for assistance with financial resources?"
-      ) {
+      if (result == "Question invalid. Are you asking for assistance with financial resources?") {
         setFail(true);
         setBad(result);
         throw new Error("failed.");
@@ -44,6 +36,8 @@ export default function Search() {
         /(?<!\[\()\s(?![\w\s$&"=.!_*()/,[]*[\])])/g,
         " "
       );
+      const resources = result.data.resources
+      console.log(resources)                  // this is where I left off last time I coded
       JSON.stringify(test);
       setResponse(JSON.parse(test));
       const lol = result.data.response.replace(
@@ -53,6 +47,12 @@ export default function Search() {
       setParagraph(lol);
       setSuccess(true);
     } catch (error) {
+      console.log(error)
+      if (error.response && error.response.data) {
+        setParagraph(error.response.data);
+      } else {
+        setParagraph("Unknown error occured. Please try again.")
+      }
       setResponse("");
     } finally {
       setIsLoading(false);
