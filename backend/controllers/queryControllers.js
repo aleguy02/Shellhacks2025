@@ -4,7 +4,7 @@ const findResources = require("../utils/findResources");
 
 const postQuery = async (req, res) => {
     try {
-        const { query, zipcode } = req.body;
+        const { query, city } = req.body;
         if (!query) {
             res.status(400).send("Form cannot be empty. Please try again.")
         } else if (query.length > 555) {
@@ -15,10 +15,10 @@ const postQuery = async (req, res) => {
             if (promptValidity == 2) {  // 2 indicates that prompt is neither valid or invalid, an edge case that occurs when Groq behaves unexpectedly
               res.status(500).send("Something went wrong. Rephrase you question and try again.");
             } else if (promptValidity == 0) {
-              res.send("Question invalid. Are you asking for assistance with financial resources?");
+              res.status(400).send("Question invalid. Are you asking for assistance with financial resources? Make sure you specify your situation (i.e. student, parent, etc.)");
             } else if (promptValidity == 1) {
               response = await generateResponse(query);
-              resources = await findResources(zipcode, query);
+              resources = await findResources(city, query);
               resources = JSON.stringify(resources)
               
               res.send({"response": response, "resources": resources});

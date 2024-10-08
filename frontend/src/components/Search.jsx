@@ -6,13 +6,12 @@ import { setKey, setLanguage, fromLatLng } from "react-geocode";
 export default function Search() {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [response, setResponse] = useState("");
+  const [resources, setResources] = useState("");
   const [location, setLocation] = useState("");
   const [fail, setFail] = useState(false);
-  const [zip, setZip] = useState("");
+  const [city, setCity] = useState("");
   const [success, setSuccess] = useState(false);
   const [paragraph, setParagraph] = useState("");
-  const [bad, setBad] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,63 +19,53 @@ export default function Search() {
     setParagraph("");
     setFail(false);
     setSuccess(false);
-    setResponse(null);
+    setResources(null);
 
     try {
       const result = await axios.post("http://localhost:5000/", {
         query: inputValue,
-        zipcode: zip,
+        city: city,
       });
       if (result == "Question invalid. Are you asking for assistance with financial resources?") {
         setFail(true);
-        setBad(result);
         throw new Error("failed.");
       }
-      const test = result.data.resources.replace(
-        /(?<!\[\()\s(?![\w\s$&"=.!_*()/,[]*[\])])/g,
-        " "
-      );
-      const resources = result.data.resources
-      console.log(resources)                  // this is where I left off last time I coded
-      JSON.stringify(test);
-      setResponse(JSON.parse(test));
-      const lol = result.data.response.replace(
-        /(?<!\[\()\s(?![\w\s$&"=.!_*()/,[]*[\])])/g,
-        " "
-      );
-      setParagraph(lol);
+      console.log(JSON.parse(result.data.resources));
+      setResources(JSON.parse(result.data.resources));
+      setParagraph(result.data.response);
       setSuccess(true);
     } catch (error) {
       console.log(error)
+      setFail(true);
       if (error.response && error.response.data) {
         setParagraph(error.response.data);
       } else {
-        setParagraph("Unknown error occured. Please try again.")
+        setParagraph("Unknown error occured. Please try again.") // trying to send a request using hotspot causes an error with result and resources
       }
-      setResponse("");
+      setResources("");
     } finally {
       setIsLoading(false);
     }
   };
 
+  // next big task is probably to refactor this. Oh also, remove my useless comments
+  // here's what I have to do. I have to change it so that instead of "Find Me", it says "Gainesville". Then, clicking it will set
+  // the city to gainesville (I can implement FIU later). Instead of zip or coordinates or whatever, I will pass city name to the backend
   const handleFind = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-        setLocation(pos);
-        setKey(import.meta.env.VITE_GOOGLE_KEY);
-        setLanguage("en");
-        fromLatLng(pos.lat, pos.lng) // Example coordinates (New York City)
-          .then((response) => {
-            const { address_components } = response.results[0];
-            setZip(address_components[6].long_name);
-          })
-          .catch((error) => console.error(error));
-      });
-    }
+    const pos = {
+      lat: 29.648313,
+      lng: -82.334327,
+    };
+    setLocation(pos);
+    setKey(import.meta.env.VITE_GOOGLE_KEY);
+    setLanguage("en");
+    setCity("Gainesville, Florida")
+    // fromLatLng(pos.lat, pos.lng)          // I think if I'm setting location to UF only I don't need this. This is
+    //   .then((response) => {
+    //     const { address_components } = response.results[0];
+    //     setZip(address_components[6].long_name);
+    //   })
+    //   .catch((error) => console.error(error));    
   };
 
   return (
@@ -116,7 +105,8 @@ export default function Search() {
             onClick={() => handleFind()}
             className="cursor-pointer mt-5 px-4 py-2 text-Magenta-Pink font-medium bg-white rounded-full inline-flex items-center"
           >
-            Find me!
+            University of Florida
+            {/* This svg is just the little arrow */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6 ml-1 duration-150"
@@ -170,7 +160,7 @@ export default function Search() {
             </div>
           )}
         </div>
-        <Map marks={response} loc={location} />
+        <Map marks={resources} loc={location} /> 
       </div>
     </section>
   );

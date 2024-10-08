@@ -7,6 +7,8 @@ import {
 import { useCallback, useState, useEffect, useRef } from "react";
 import { fromAddress } from "react-geocode";
 
+// poi is each resource in resources object
+// lo is the coordinates passed into map in Search.jsx
 export default function PoisInfo({ poi, lo }) {
   const [infowindowOpen, setInfowindowOpen] = useState(false);
   const [markerRef, marker] = useAdvancedMarkerRef();
@@ -41,7 +43,7 @@ export default function PoisInfo({ poi, lo }) {
         onClick={handleClick}
         key={poi.name}
         position={coords.current}
-        title={"LMFAO"}
+        title={"Hi :)"}
         ref={markerRef}
       >
         <img src="/poi.png" alt="POILogo" width={40} height={40} />

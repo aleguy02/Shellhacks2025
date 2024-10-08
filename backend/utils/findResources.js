@@ -4,17 +4,17 @@ const formatJSON = require("./formatJSON");
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-const findResources = async (zipcode, query) => {
+const findResources = async (city, query) => {
     const chatCompletion = await groq.chat.completions.create({
         messages: [
           {
             role: "user",
-            content: `You are an expert assistant tasked with identifying economic support and financial resources that are relevant to a provided query for any given geographic location. Please follow the steps outlined below to collect relevant information and format it in JSON. The zip code of the location ${zipcode}. The query is "${query}".
+            content: `You are an expert assistant tasked with identifying economic support and financial resources that are relevant to a provided query for any given geographic location. Please follow the steps outlined below to collect relevant information and format it in JSON. The city of the location ${city}. The query is "${query}".
 
 ### Instructions:
 
 1. **Research the Area**:
-   - Using the provided zip code (${zipcode}) search for local government websites, community organizations, non-profits, and charities that offer economic support services relevant to the query. Limit your search to a 10-mile radius.
+   - Using the provided city (${city}) search for local government websites, community organizations, non-profits, and charities that offer economic support services relevant to the query. Limit your search to a 10-mile radius.
 
 2. **Identify Resources**:
    - Find at least 3 to 5 organizations or services within the region of the provided coordinates that offer economic support or services relevant to the query.

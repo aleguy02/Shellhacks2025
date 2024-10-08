@@ -22,6 +22,7 @@ export default function MapComponent({ loc, marks }) {
   );
 }
 
+// loc is the coordinates, pois is the response object
 const PoiMarkers = ({ pois, loc }) => {
   return (
     <>
