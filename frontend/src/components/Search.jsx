@@ -51,21 +51,25 @@ export default function Search() {
   // next big task is probably to refactor this. Oh also, remove my useless comments
   // here's what I have to do. I have to change it so that instead of "Find Me", it says "Gainesville". Then, clicking it will set
   // the city to gainesville (I can implement FIU later). Instead of zip or coordinates or whatever, I will pass city name to the backend
-  const handleFind = () => {
-    const pos = {
-      lat: 29.648313,
-      lng: -82.334327,
-    };
-    setLocation(pos);
+  const handleFind = (schoolName) => {
     setKey(import.meta.env.VITE_GOOGLE_KEY);
     setLanguage("en");
-    setCity("Gainesville, Florida")
-    // fromLatLng(pos.lat, pos.lng)          // I think if I'm setting location to UF only I don't need this. This is
-    //   .then((response) => {
-    //     const { address_components } = response.results[0];
-    //     setZip(address_components[6].long_name);
-    //   })
-    //   .catch((error) => console.error(error));    
+
+    if (schoolName === "UF") {
+      const pos = {
+        lat: 29.648313,
+        lng: -82.334327,
+      };
+      setLocation(pos);
+      setCity("Gainesville, Florida");
+    } else if (schoolName === "FIU") {
+      const pos = {
+        lat: 25.7506301,
+        lng: -80.2604145,
+      };
+      setLocation(pos);
+      setCity("Coral Gables, Florida");
+    }   
   };
 
   return (
@@ -101,27 +105,50 @@ export default function Search() {
               disabled={isLoading}
             />
           </form>
-          <a
-            onClick={() => handleFind()}
-            className="cursor-pointer mt-5 px-4 py-2 text-Magenta-Pink font-medium bg-white rounded-full inline-flex items-center"
-          >
-            University of Florida
-            {/* This svg is just the little arrow */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 ml-1 duration-150"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          <div className="space-x-4">
+            <a
+              onClick={() => handleFind("UF")}
+              className="cursor-pointer mt-5 px-4 py-2 text-Magenta-Pink font-medium bg-white rounded-full inline-flex items-center"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 7l5 5m0 0l-5 5m5-5H6"
-              />
-            </svg>
-          </a>
+              University of Florida
+              {/* This svg is just the little arrow */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 ml-1 duration-150"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
+              </svg>
+            </a>
+            <a
+              onClick={() => handleFind("FIU")}
+              className="cursor-pointer mt-5 px-4 py-2 text-Magenta-Pink font-medium bg-white rounded-full inline-flex items-center"
+            >
+              Florida International University
+              {/* This svg is just the little arrow */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 ml-1 duration-150"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
+              </svg>
+            </a>
+          </div>
           {isLoading && (
             <div className="mt-4 p-4 bg-gray-100 rounded-[20rem]">
               <p className="text-center text-Magenta-Pink text-popmed font-bold">

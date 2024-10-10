@@ -78,11 +78,6 @@ export default function PoisInfo({ poi, lo }) {
               <div className="font-medium text-black text-lg">
                 {poi.contact.phone}
               </div>
-              <div className="font-medium text-sky-400 text-lg cursor-pointer">
-                <a target="_blank" href={poi.contact.website}>
-                  {poi.contact.website}
-                </a>
-              </div>
               <div className="font-medium text-black text-lg">
                 {poi.contact.address}
               </div>
